@@ -167,12 +167,12 @@ p{
 /*Header $header*/
 
 header{
-	background-image: url('../images/header-background-breadcrumb.jpg');
+	background-image: url('header-background-breadcrumb.jpg');
 	background-size: cover;
 }
 
 header.homepage{
-	background-image: url("../images/slide-background.jpg");
+	background-image: url("slide-background.jpg");
 	background-size: cover;
 	position: relative;
 }
@@ -515,7 +515,7 @@ input.signup-button:hover::after{
 
 .widget2-bg{
 	padding: 250px 0 100px 0;
-	background-image: url('../images/widget2-bg1.png'), url('../images/widget2-bg2.png');
+	background-image: url('widget2-bg1.png'), url('widget2-bg2.png');
 	background-repeat: no-repeat;
 	background-position: left top, center bottom;
 	background-size: 30%, 100%;
@@ -555,7 +555,7 @@ input.signup-button:hover::after{
 }
 
 .gauges .gauge-container{
-	background-image: url("../images/gauge.png");
+	background-image: url("gauge.png");
 	background-size: cover;
 	width: 130px;
 	height: 130px;
@@ -583,7 +583,7 @@ input.signup-button:hover::after{
 
 .testimonials-bg{
 	padding: 150px 0 40px 0;
-	background-image: url('../images/testimonials-bg.png');
+	background-image: url('testimonials-bg.png');
 	background-repeat: no-repeat;
 	background-position: center bottom;
 	background-size: 100%;
@@ -676,7 +676,7 @@ input.signup-button:hover::after{
 
 .widget4-bg{
 	padding: 300px 0;
-	background-image: url('../images/expertise-bg.png');
+	background-image: url('expertise-bg.png');
 	background-repeat: no-repeat;
 	background-position: right 60%;
 	background-size: 52%;
@@ -925,7 +925,7 @@ input.signup-button:hover::after{
 
 .partners-bg{
 	padding: 150px 0 200px 0;
-	background-image: url('../images/partners-bg.png');
+	background-image: url('partners-bg.png');
 	background-repeat: no-repeat;
 	background-position: left;
 	background-size: 26%;
@@ -1033,7 +1033,7 @@ input.signup-button:hover::after{
 }
 
 .signup{
-	background-image: url('../images/home-contant-background.jpg');
+	background-image: url('home-contant-background.jpg');
 	background-size: cover;
 }
 
@@ -1286,7 +1286,7 @@ main:not(.homepage) .widget5-inner{
 }
 
 .widget8{
-	background-image: url('../images/widget8.jpg');
+	background-image: url('widget8.jpg');
 	background-size: cover;
 	color: #fff;
 	padding: 60px 0;
@@ -1737,7 +1737,7 @@ main:not(.homepage) .widget5-inner{
 }
 
 .service2-background{
-	background-image: url('../images/services3.jpg');
+	background-image: url('services3.jpg');
 	background-size: cover;
 	border-radius: 8px;
 	color: #fff;
