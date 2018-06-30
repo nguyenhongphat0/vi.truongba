@@ -4,11 +4,20 @@ include 'QueryBuilder.php';
 class Model {
     public static $table = '';
     public static $columns = [];
+    public static $default = [];
     public $values = [];
     
     function __construct($param) {
         foreach (static::$columns as $column) {
-            $this->values[$column] = $param[$column];
+            if (isset($param[$column])) {
+                $this->values[$column] = $param[$column];
+            } else {
+                if (isset(static::$default[$column])) {
+                    $this->values[$column] = static::$default[$column];
+                } else {
+                    $this->values[$column] = null;
+                }
+            }
         }
 //         $this->values = $param;
     }
@@ -16,7 +25,7 @@ class Model {
         return "SELECT * FROM ".static::$table;
     }
     function InsertStatement() : string {
-        return "INSERT INTO ".static::$table." (".implode(",", static::$columns).")"." VALUES (".implode(",", array_map(function($v) { return "'".$v."'"; }, $this->values)).")";
+        return "INSERT INTO ".static::$table." (".implode(",", static::$columns).")"." VALUES (".implode(",", array_map(function($v) { return $v != null ? "'".$v."'" : "null"; }, $this->values)).")";
     }
     function UpdateStatement() : string {
         $params = [];
@@ -47,7 +56,7 @@ class Model {
         QueryBuilder::new()
         ->connect()
         ->query($this->FindStatement())
-        ->assoc(function($res) use (&$list) {
+        ->assoc(function($res) {
             $this->values = $res;
         });
         return $this;
