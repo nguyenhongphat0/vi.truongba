@@ -25,8 +25,11 @@ export default class App extends Vue {}
 
 
 <style lang="scss">
+* {
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  // font-family: Muli,Helvetica,Arial,sans-serif;
+}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -35,5 +38,21 @@ export default class App extends Vue {}
 }
 #content {
   padding-left: 50px;
+  margin: 10px;
+}
+.card__title {
+  text-align: left;
+}
+input[type="text"].flat, textarea.flat {
+  border: none;
+  width: 100%;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+input[type="text"].flat:hover, input[type="text"].flat:focus, textarea.flat:hover, textarea.flat:focus {
+  padding: 0px 5px;
+  border: 1px dashed #2c3e50;
+  border-radius: 3px;
+  background-color: white;
 }
 </style>
