@@ -1,6 +1,6 @@
 <template>
     <v-layout>
-        <v-flex xs6 offset-xs3>
+        <v-flex xs12 md6 lg4 offset-md3 offset-lg4>
             <Card title="Login" style="width: unset" align="center" :img="avatar" height="100" backgroundsize="contain">
                 <div>
                     Login to the system on {{new Date().toLocaleString()}}
@@ -31,7 +31,7 @@ import Card from '@/components/shared/Card.vue'
     },
     computed: {
         avatar() {
-            return this.username ? '/img/avatar/' + this.username : '/img/truongba.jpg';
+            return this.$data.username ? '/img/avatar/' + this.$data.username : '/img/truongba.jpg';
         }
     }
 })

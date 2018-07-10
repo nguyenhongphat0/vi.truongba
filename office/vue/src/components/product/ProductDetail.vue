@@ -1,34 +1,30 @@
 <template>
     <div>
-        <div v-if="customer">
-            <div v-if="customer.name != null">
+        <div v-if="product">
+            <div v-if="product.name != null">
                 <v-card class="card">
-                    <v-card-media :src="customer.avatar" height="40vh" @mouseover="editAvatar = true" @mouseout="editAvatar = false" style="cursor: pointer">
+                    <v-card-media :src="product.image" height="40vh" @mouseover="editImage = true" @mouseout="editImage = false" style="cursor: pointer">
                     <div style="margin: auto;">
-                        <input @input="change" v-if="editAvatar" type="text" class="flat" v-model="customer.avatar" placeholder="No avatar" title="Avatar" style="text-align: center"><br>
+                        <input @input="change" v-if="editImage" type="text" class="flat" v-model="product.image" placeholder="No image" title="Image" style="text-align: center"><br>
                     </div>
                     </v-card-media>
                     <v-card-title primary-title>
                     <div style="width: 100%">
                         <h3 class="headline mb-0">
-                            <input @input="change" type="text" class="flat" v-model="customer.name" placeholder="No name" title="Name" style="width: unset">&nbsp;
-                            <div style="float: right">
-                                <a class="red--text" :href="'tel:'+customer.phone" target="_blank"><v-icon>phone</v-icon></a>
-                                <a class="red--text" :href="'mailto:'+customer.email" target="_blank"><v-icon>email</v-icon></a>
-                            </div>
+                            <input @input="change" type="text" class="flat" v-model="product.name" placeholder="No name" title="Name">
                         </h3>
-                        <input @input="change" type="text" class="flat" v-model="customer.organization" placeholder="No organization" title="Organization"><br>
-                        <input @input="change" type="text" class="flat" v-model="customer.phone" placeholder="No phone" title="Phone"><br>
-                        <input @input="change" type="text" class="flat" v-model="customer.email" placeholder="No email" title="Email"><br>
-                        <input @input="change" type="text" class="flat" v-model="customer.address" placeholder="No address" title="Address"><br>
-                        <textarea @input="change" class="flat" v-model="customer.description" placeholder="No description" title="Description" /><br>
+                        <textarea @input="change" class="flat" v-model="product.description" placeholder="No description" title="Description" /><br>
+                        <input @input="change" type="text" class="flat" v-model="product.customer_id" placeholder="No customer" title="Customer"><br>
+                        <input @input="change" type="text" class="flat" v-model="product.secret_key" placeholder="No key" title="Key"><br>
+                        <input @input="change" type="text" class="flat" v-model="product.status" placeholder="No status" title="Status"><br>
+                        <textarea @input="change" class="flat" v-model="product.secret" placeholder="No secret" title="Secret" /><br>
                     </div>
                     </v-card-title>
                     <v-card-actions>
                         <div style="margin-left: auto" class="grey--text">
-                            <v-btn v-if="customer.id && changed && admin" class="red white--text" @click="updateCustomer">Update</v-btn>
-                            <v-btn v-if="!customer.id && admin" class="red white--text" @click="createCustomer">Create</v-btn>
-                            {{customer.date_created}}
+                            <v-btn v-if="product.id && changed && admin" class="red white--text" @click="updateProduct">Update</v-btn>
+                            <v-btn v-if="!product.id && admin" class="red white--text" @click="createProduct">Create</v-btn>
+                            {{product.date_created}}
                         </div>
                     </v-card-actions>
                 </v-card>
@@ -46,8 +42,8 @@
                     </v-btn>
                     </v-snackbar>
             </div>
-            <div v-if="customer.name == null">
-                <h1>No customer found!</h1>
+            <div v-if="product.name == null">
+                <h1>No product found!</h1>
             </div>
         </div>
     </div>    
@@ -57,7 +53,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component';
 import Card from '@/components/shared/Card.vue';
-import Customer from '../../models/customer';
+import Product from '../../models/product';
 import { Prop, Watch } from 'vue-property-decorator';
 
 @Component({
@@ -65,9 +61,9 @@ import { Prop, Watch } from 'vue-property-decorator';
         Card
     }
 })
-export default class CustomerDetail extends Vue {
-    customer: Customer | null = null;
-    editAvatar: boolean = false;
+export default class ProductDetail extends Vue {
+    product: Product | null = null;
+    editImage: boolean = false;
     showMessage: boolean = false;
     message: string = '';
     changed: boolean = false;
@@ -78,17 +74,17 @@ export default class CustomerDetail extends Vue {
         this.admin = localStorage.getItem('admin') == '1';
     }
 
-    fetchCustomer(id: string) {
+    fetchProduct(id: string) {
         if (id == 'new') {
-            this.customer = {
+            this.product = {
                 name: ''
-            } as Customer;
+            } as Product;
             return;
         }
-        fetch(`/api/customer/get.php?id=${id}`)
-            .then(res => res.json() as Promise<Customer>)
-            .then(customer => {
-                this.customer = customer;
+        fetch(`/api/product/get.php?id=${id}`)
+            .then(res => res.json() as Promise<Product>)
+            .then(product => {
+                this.product = product;
             });
     }
 
@@ -101,11 +97,11 @@ export default class CustomerDetail extends Vue {
         this.changed = true;
     }
 
-    updateCustomer() {
-        fetch(`/api/customer/update.php`, {
+    updateProduct() {
+        fetch(`/api/product/update.php`, {
             method: "PUT",
             credentials: "include",
-            body: JSON.stringify(this.customer)
+            body: JSON.stringify(this.product)
         })
         .then(res => {
             console.log(res);
@@ -120,9 +116,9 @@ export default class CustomerDetail extends Vue {
         })
         .then(res => {
             if (res == false) {
-                throw new Error("Error updating customer detail. Something wrong with your database!");
+                throw new Error("Error updating product detail. Something wrong with your database!");
             } else {
-                this.show(`${this.customer.name}'s info updated!`);
+                this.show(`${this.product.name}'s info updated!`);
                 this.changed = false;
                 this.$emit('refreshTable');
             }
@@ -132,11 +128,11 @@ export default class CustomerDetail extends Vue {
         });
     }
 
-    createCustomer() {
-        fetch(`/api/customer/insert.php`, {
+    createProduct() {
+        fetch(`/api/product/insert.php`, {
             method: "POST",
             credentials: "include",
-            body: JSON.stringify(this.customer)
+            body: JSON.stringify(this.product)
         })
         .then(res => {
             if (res.ok) {
@@ -150,9 +146,9 @@ export default class CustomerDetail extends Vue {
         })
         .then(res => {
             if (res == false) {
-                throw new Error("Error updating customer detail. Something wrong with your database!");
+                throw new Error("Error updating product detail. Something wrong with your database!");
             } else {
-                this.show(`Customer ${this.customer.name} created successfully`);
+                this.show(`Product ${this.product.name} created successfully`);
                 this.$emit('refreshTable');
             }
         })
@@ -162,12 +158,12 @@ export default class CustomerDetail extends Vue {
     }
 
     created() {
-        this.fetchCustomer(this.$route.params.id);
+        this.fetchProduct(this.$route.params.id);
     }
 
     @Watch('$route')
     routeChanged (to, from) {
-        this.fetchCustomer(to.params.id);
+        this.fetchProduct(to.params.id);
     }
 }
 </script>

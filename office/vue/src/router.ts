@@ -5,6 +5,7 @@ import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Hello from './views/Hello.vue'
 import Customer from './views/Customer.vue'
+import Product from './views/Product.vue'
 import User from './models/user'
 
 Vue.use(Router)
@@ -35,6 +36,16 @@ const router = new Router({
       path: '/customer/:id',
       name: 'customer_detail',
       component: Customer
+    },
+    {
+      path: '/product',
+      name: 'product',
+      component: Product
+    },
+    {
+      path: '/product/:id',
+      name: 'product_detail',
+      component: Product
     }
   ]
 })

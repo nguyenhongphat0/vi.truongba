@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-layout row wrap>
-        <v-btn class="red white--text" v-if="admin" to="/customer/new">Add new customer</v-btn>
+        <v-btn v-if="admin" class="red white--text" to="/product/new">Add new product</v-btn>
     </v-layout>
-    <div v-if="!customers">
+    <div v-if="!products">
       <v-progress-circular
         :size="70"
         :width="7"
@@ -12,9 +12,9 @@
       ></v-progress-circular>
     </div>
     <v-data-table
-      v-if="customers"
+      v-if="products"
       :headers="headers"
-      :items="customers"
+      :items="products"
       item-key="id"
       id="table"
       :rows-per-page-items='[5]'
@@ -24,9 +24,9 @@
       <template slot="items" slot-scope="props">
         <tr @click="select(props.item)" :class="{'red--text': $route.params.id == props.item.id }">
           <td class="text-xs-left">{{ props.item.name }}</td>
-          <td class="truncated">{{ props.item.organization }}</td>
-          <td>{{ props.item.phone }}</td>
-          <td class="truncated">{{ props.item.address }}</td>
+          <td class="truncated">{{ props.item.description }}</td>
+          <td>{{ props.item.status }}</td>
+          <td class="truncated">{{ props.item.date_created }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -36,24 +36,24 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import Customer, {  CustomerHeader } from '../../models/customer';
+import Product, {  ProductHeader } from '../../models/product';
 import { Prop, Emit } from 'vue-property-decorator';
 
 @Component({})
-export default class CustomerTable extends Vue {
-    headers = CustomerHeader;
-    customers: Customer[] | null = null;
-    selected: Customer | null = null;
+export default class ProductTable extends Vue {
+    headers = ProductHeader;
+    products: Product[] | null = null;
+    selected: Product | null = null;
     loading: boolean = false;
     admin: boolean = false;
 
-    select(customer: Customer) {
-      if (this.selected == customer) {
+    select(product: Product) {
+      if (this.selected == product) {
         this.selected = null;
-        this.$router.push(`/customer`);
+        this.$router.push(`/product`);
       } else {
-        this.selected = customer;
-        this.$router.push(`/customer/${customer.id}`);
+        this.selected = product;
+        this.$router.push(`/product/${product.id}`);
       }
       this.loading = true;
       setTimeout(a => {
@@ -64,15 +64,15 @@ export default class CustomerTable extends Vue {
     constructor() {
       super();
       this.admin = localStorage.getItem('admin') == '1';
-      this.fetchCustomer();
+      this.fetchProduct();
     }
 
-    fetchCustomer() {
+    fetchProduct() {
       this.loading = true;
-      fetch(`/api/customer`)
-        .then(res => res.json() as Promise<Customer[]>)
-        .then(customers => {
-          this.customers = customers;
+      fetch(`/api/product`)
+        .then(res => res.json() as Promise<Product[]>)
+        .then(products => {
+          this.products = products;
           this.loading = false;
       })
     }
