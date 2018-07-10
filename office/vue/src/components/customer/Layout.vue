@@ -1,9 +1,6 @@
 <template>
     <v-container grid-list-md>
         <v-layout row wrap>
-            <v-btn class="red white--text" to="/customer/new">Add new customer</v-btn>
-        </v-layout>
-        <v-layout row wrap>
             <v-flex xs12 md6 v-if="detailed">
                 <CustomerDetail @refreshTable="$refs.table.fetchCustomer()" />
             </v-flex>

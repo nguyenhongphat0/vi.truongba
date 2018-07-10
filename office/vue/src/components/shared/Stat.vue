@@ -7,7 +7,6 @@
     :cover="cover"
     :height="height"
     :nocontent="true"
-    :nobutton="nobutton"
   />
 </template>
 

@@ -2,6 +2,6 @@
 include "../model/Customer.php";
 include "../lib/Filter.php";
 
-Filter::start()->adminOnly()->returnJSON();
+Filter::start()->returnJSON();
 $customer = new Customer($_GET);
-echo $customer->delete() ? 'true' : 'false';
+die(json_encode($customer->find()->values));

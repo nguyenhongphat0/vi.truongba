@@ -2,18 +2,18 @@
   <v-layout>
     <v-flex xs12>
       <v-card class="card">
-        <v-card-media :src="img" :height="height">
+        <v-card-media :src="img" :height="height" :class="backgroundsize">
           <div style="margin: auto; color: white">
-            <h1 v-html="cover"></h1>
+            <h1 v-html="cover" :style="'text-align: ' + align"></h1>
           </div>
         </v-card-media>
         <v-card-title primary-title v-if="!nocontent">
-          <div>
-            <h3 class="headline mb-0">{{title}}</h3>
-            <div>{{content}}</div>
+          <div style="width: 100%">
+            <h2 class="headline mb-0" :style="'text-align: ' + align">{{title}}</h2>
+            <div :style="'text-align: ' + align"><slot></slot></div>
           </div>
         </v-card-title>
-        <v-card-actions v-if="!nobutton">
+        <v-card-actions v-if="button">
           <v-btn flat :color="color"><v-icon>{{icon}}</v-icon> {{button}}</v-btn>
         </v-card-actions>
       </v-card>
@@ -27,7 +27,7 @@ import Component from "vue-class-component";
 
 @Component({
   props: [
-    'title', 'content', 'img', 'button', 'icon', 'color', 'cover', 'height', 'nocontent', 'nobutton'
+    'title', 'img', 'button', 'icon', 'color', 'cover', 'height', 'nocontent', 'align', 'backgroundsize'
   ]
 })
 export default class Card extends Vue {

@@ -1,8 +1,13 @@
 <template>
   <div id="app">
-    <OfficeHeader></OfficeHeader>
-    <SideBar></SideBar>
-    <div id="content">
+    <div id="loged" v-if="$route.name != 'login'">
+      <OfficeHeader></OfficeHeader>
+      <SideBar></SideBar>
+      <div id="content">
+        <router-view/>
+      </div>
+    </div>
+    <div id="login" v-if="$route.name == 'login'">
       <router-view/>
     </div>
   </div>
@@ -43,13 +48,16 @@ export default class App extends Vue {}
 .card__title {
   text-align: left;
 }
-input[type="text"].flat, textarea.flat {
+.contain .card__media__background {
+  background-size: contain !important;
+}
+input[type="text"].flat, input[type="password"].flat, textarea.flat {
   border: none;
   width: 100%;
   transition-duration: 0.5s;
   cursor: pointer;
 }
-input[type="text"].flat:hover, input[type="text"].flat:focus, textarea.flat:hover, textarea.flat:focus {
+input[type="text"].flat:hover, input[type="text"].flat:focus, input[type="password"].flat:hover, input[type="password"].flat:focus, textarea.flat:hover, textarea.flat:focus {
   padding: 0px 5px;
   border: 1px dashed #2c3e50;
   border-radius: 3px;
