@@ -2,7 +2,7 @@
     <div id="sidebar">
         <router-link class="welcome" to="/about">
             <v-avatar color="red" size="36">
-                <span class="white--text headline">P</span>
+                <span class="white--text headline">{{letter}}</span>
             </v-avatar>
         </router-link>
         <v-btn color="white" flat to="/"><v-icon color="white">dashboard</v-icon></v-btn>
@@ -11,6 +11,17 @@
         <v-btn color="white" flat to="/task"><v-icon color="white">ballot</v-icon></v-btn>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            letter: localStorage.getItem('username')[0].toUpperCase()
+        }
+    }
+}
+</script>
+
 
 <style lang="scss" scoped>
     #sidebar {

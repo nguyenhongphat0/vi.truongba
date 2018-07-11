@@ -2,6 +2,8 @@
 include "../model/Product.php";
 include "../lib/Filter.php";
 
-Filter::start()->returnJSON();
-$product = new Product($_GET);
-die(json_encode($product->find()->values));
+$product = (new Product($_GET))->find()->values;
+if (!Filter::start()->returnJSON()->isAdmin()) {
+    Product::hideSecret($product);
+}
+die(json_encode($product));

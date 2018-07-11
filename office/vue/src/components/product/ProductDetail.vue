@@ -14,16 +14,23 @@
                             <input @input="change" type="text" class="flat" v-model="product.name" placeholder="No name" title="Name">
                         </h3>
                         <textarea @input="change" class="flat" v-model="product.description" placeholder="No description" title="Description" /><br>
-                        <input @input="change" type="text" class="flat" v-model="product.customer_id" placeholder="No customer" title="Customer"><br>
-                        <input @input="change" type="text" class="flat" v-model="product.secret_key" placeholder="No key" title="Key"><br>
-                        <input @input="change" type="text" class="flat" v-model="product.status" placeholder="No status" title="Status"><br>
-                        <textarea @input="change" class="flat" v-model="product.secret" placeholder="No secret" title="Secret" /><br>
+                        <v-select data-app @input="change" :items="customers" label="Customer" item-text="name" item-value="id" v-model="product.customer_id" :disabled="!admin"></v-select>
+                        <input @input="change" type="text" class="flat" v-model="product.status" placeholder="No status" title="Status" :class="product.status.toLowerCase()"><br>
+                        <div v-if="admin">
+                            <input @input="change" type="text" class="flat" v-model="product.secret_key" placeholder="No key" title="Key"><br>
+                            <textarea @input="change" class="flat" v-model="product.secret" placeholder="No secret" title="Secret" /><br>
+                        </div>
+                        <div v-if="!admin && product.secret">
+                            <pre>{{product.secret}}</pre>
+                        </div>
                     </div>
                     </v-card-title>
                     <v-card-actions>
                         <div style="margin-left: auto" class="grey--text">
                             <v-btn v-if="product.id && changed && admin" class="red white--text" @click="updateProduct">Update</v-btn>
                             <v-btn v-if="!product.id && admin" class="red white--text" @click="createProduct">Create</v-btn>
+                            <input type="password" v-if="!admin" class="flat" v-model="product.secret_key" @keyup.enter="showSecret" placeholder="Enter secret key" style="display: inline; width: 150px;">
+                            <v-btn v-if="!admin" class="red white--text" @click="showSecret">Show secret</v-btn>
                             {{product.date_created}}
                         </div>
                     </v-card-actions>
@@ -55,6 +62,7 @@ import Component from 'vue-class-component';
 import Card from '@/components/shared/Card.vue';
 import Product from '../../models/product';
 import { Prop, Watch } from 'vue-property-decorator';
+import Customer from '../../models/customer';
 
 @Component({
     components: {
@@ -68,10 +76,12 @@ export default class ProductDetail extends Vue {
     message: string = '';
     changed: boolean = false;
     admin: boolean = false;
+    customers: Customer[];
 
     constructor() {
         super();
         this.admin = localStorage.getItem('admin') == '1';
+        this.fetchCustomers();
     }
 
     fetchProduct(id: string) {
@@ -81,11 +91,19 @@ export default class ProductDetail extends Vue {
             } as Product;
             return;
         }
-        fetch(`/api/product/get.php?id=${id}`)
+        fetch(`/api/product/get.php?id=${id}`, {
+            credentials: 'include'
+        })
             .then(res => res.json() as Promise<Product>)
             .then(product => {
                 this.product = product;
             });
+    }
+
+    async fetchCustomers() {
+        this.customers = await fetch(`/api/customer`)
+        .then(res => res.json() as Promise<Customer[]>)
+        .catch(error => []);
     }
 
     show(message: string) {
@@ -95,6 +113,22 @@ export default class ProductDetail extends Vue {
 
     change() {
         this.changed = true;
+    }
+
+    async showSecret() {
+        this.product.secret = await fetch(`/api/product/secret.php?id=${this.product.id}&key=${encodeURIComponent(this.product.secret_key)}`)
+        .then(res => {
+            if (res.status == 200) {
+                return res.text()
+            } else {
+                throw "Wrong secret key!"
+            }
+        })
+        .catch(error => {
+            this.message = error;
+            this.showMessage = true;
+            return '';
+        })
     }
 
     updateProduct() {
@@ -167,3 +201,24 @@ export default class ProductDetail extends Vue {
     }
 }
 </script>
+
+<style>
+pre {
+    font-family: inherit !important;
+    white-space: pre-wrap !important;
+    border-top: 1px solid firebrick !important;
+    margin-top: 20px !important;
+    max-height: 40vh;
+    overflow-y: scroll;
+}
+.done, complete, .completed, .finish, .finished, .success {
+    color: darkseagreen;
+}
+input.warning, input.danger, input.urgent {
+    color: firebrick;
+}
+.menu__content {
+    box-shadow: none !important;
+    position: static !important;
+}
+</style>

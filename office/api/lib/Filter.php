@@ -27,4 +27,15 @@ class Filter
         http_response_code(403);
         die('403');
     }
+
+    function isAdmin()
+    {
+        if (isset($_SESSION['user'])) {
+            $user = $_SESSION['user'];
+            if ($user->values['is_admin']) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

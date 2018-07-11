@@ -2,5 +2,10 @@
 include "../model/Product.php";
 include "../lib/Filter.php";
 
-Filter::start()->returnJSON();
-die(json_encode(Product::all()));
+$products = Product::all();
+if (!Filter::start()->returnJSON()->isAdmin()) {
+    foreach ($products as &$product) {
+        Product::hideSecret($product);
+    }   
+}
+die(json_encode($products));
