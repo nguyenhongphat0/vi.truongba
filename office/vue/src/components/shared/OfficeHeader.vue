@@ -7,9 +7,9 @@
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-toolbar-title id="title">
-        <router-link to="/about">
+        <a href="/">
           <img id="logo" src="img/logo.png" alt="TRUONGBA">
-        </router-link>
+        </a>
       </v-toolbar-title>
     </v-toolbar>
   </div>

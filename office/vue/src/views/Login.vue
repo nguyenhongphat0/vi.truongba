@@ -12,7 +12,7 @@
                     <v-btn flat @click="login" class="red--text" disabled v-if="loading">Loging in...</v-btn>
                 </div>
             </Card>
-            <img src="/img/logo.png" alt="TRUONGBA" style="margin-top: 100px">
+            <img src="img/logo.png" alt="TRUONGBA" style="margin-top: 100px">
             <v-snackbar v-model="snacking" :timeout=0>
                 {{message}} <v-btn color="red" flat @click="snacking = false">Close</v-btn>
             </v-snackbar>

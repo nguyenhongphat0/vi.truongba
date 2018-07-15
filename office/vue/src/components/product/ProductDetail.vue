@@ -88,7 +88,8 @@ export default class ProductDetail extends Vue {
     fetchProduct(id: string) {
         if (id == 'new') {
             this.product = {
-                name: ''
+                name: '',
+                status: ''
             } as Product;
             return;
         }

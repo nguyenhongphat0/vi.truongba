@@ -44,8 +44,8 @@ import Product from '../../models/product';
     }
 })
 export default class Layout extends Vue{
-    customers: Customer[] = null;
-    products: Product[] = null;
+    customers: Customer[] | null = null;
+    products: Product[] | null = null;
 
     constructor() {
         super();
