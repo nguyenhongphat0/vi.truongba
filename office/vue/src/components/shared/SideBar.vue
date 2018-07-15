@@ -8,7 +8,6 @@
         <v-btn color="white" flat to="/"><v-icon color="white">dashboard</v-icon></v-btn>
         <v-btn color="white" flat to="/customer"><v-icon color="white">account_box</v-icon></v-btn>
         <v-btn color="white" flat to="/product"><v-icon color="white">public</v-icon></v-btn>
-        <v-btn color="white" flat to="/task"><v-icon color="white">ballot</v-icon></v-btn>
     </div>
 </template>
 

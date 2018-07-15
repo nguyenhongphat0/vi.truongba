@@ -14,7 +14,7 @@
           </div>
         </v-card-title>
         <v-card-actions v-if="button">
-          <v-btn flat :color="color"><v-icon>{{icon}}</v-icon> {{button}}</v-btn>
+          <v-btn flat :to="to" :color="color"><v-icon>{{icon}}</v-icon> {{button}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -27,7 +27,7 @@ import Component from "vue-class-component";
 
 @Component({
   props: [
-    'title', 'img', 'button', 'icon', 'color', 'cover', 'height', 'nocontent', 'align', 'backgroundsize'
+    'title', 'img', 'button', 'icon', 'color', 'cover', 'height', 'nocontent', 'align', 'backgroundsize', 'to'
   ]
 })
 export default class Card extends Vue {

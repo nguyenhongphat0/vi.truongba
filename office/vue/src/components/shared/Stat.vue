@@ -7,6 +7,7 @@
     :cover="cover"
     :height="height"
     :nocontent="true"
+    :to="to"
   />
 </template>
 
@@ -18,7 +19,7 @@ import Card from "./Card.vue";
 
 @Component({
   props: [
-    'img', 'button', 'icon', 'color', 'cover', 'height', 'nocontent', 'nobutton'
+    'img', 'button', 'icon', 'color', 'cover', 'height', 'nocontent', 'nobutton', 'to'
   ],
   components: {
     Card

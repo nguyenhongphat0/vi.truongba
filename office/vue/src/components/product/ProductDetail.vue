@@ -14,8 +14,9 @@
                             <input @input="change" type="text" class="flat" v-model="product.name" placeholder="No name" title="Name">
                         </h3>
                         <textarea @input="change" class="flat" v-model="product.description" placeholder="No description" title="Description" /><br>
-                        <v-select data-app @input="change" :items="customers" label="Customer" item-text="name" item-value="id" v-model="product.customer_id" :disabled="!admin"></v-select>
-                        <input @input="change" type="text" class="flat" v-model="product.status" placeholder="No status" title="Status" :class="product.status.toLowerCase()"><br>
+                        <v-select data-app @input="change" :items="customers" label="Customer" item-text="name" item-value="id" v-model="product.customer_id" v-if="admin"></v-select>
+                        Customer: <v-btn flat color="red" :to="'/customer/' + product.customer_id" v-if="!admin">{{ customers.find(c => c.id == product.customer_id ).name }}</v-btn><br>
+                        Status: <input @input="change" type="text" class="flat" v-model="product.status" placeholder="No status" title="Status" :class="product.status.toLowerCase()" style="width: unset"><br>
                         <div v-if="admin">
                             <input @input="change" type="text" class="flat" v-model="product.secret_key" placeholder="No key" title="Key"><br>
                             <textarea @input="change" class="flat" v-model="product.secret" placeholder="No secret" title="Secret" /><br>
